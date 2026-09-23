@@ -859,7 +859,7 @@ body {
   top: 47%;
   left: 50%;
   z-index: 30;
-  width: min(92%, 840px);
+  width: min(92%, 800px);
   container-type: inline-size;
   transform: translate(-50%, -165%);
   opacity: 1;

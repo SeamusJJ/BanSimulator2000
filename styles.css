@@ -1,0 +1,1321 @@
+#intro {
+  display: none;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: #000;
+  cursor: none;
+}
+
+body {
+  overflow: hidden;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  cursor: none;
+  display: grid;
+  place-items: center;
+}
+
+.stage.loading {
+  cursor: none;
+}
+
+.intro-frame {
+  position: relative;
+  width: min(100vw, 160vh);
+  height: min(100vh, 62.5vw);
+  aspect-ratio: 16 / 10;
+  max-width: 160vh;
+  max-height: 62.5vw;
+  overflow: hidden;
+  background: #000;
+  z-index: 5;
+}
+
+.video-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  transform: translateY(0%);
+  will-change: transform;
+}
+
+.video-top {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-top video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--edge, #000);
+}
+
+.menu img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.menu-mod-badge-wrap {
+  position: absolute;
+  top: 1.5%;
+  left: 1.5%;
+  z-index: 1;
+  width: clamp(72px, 16%, 128px);
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.menu-mod-badge-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.menu-mod-badge-wrap::after {
+  display: block;
+  width: 100%;
+  padding-top: 70.19%;
+  content: "";
+}
+
+.menu-mod-badge-hover {
+  opacity: 0;
+}
+
+.menu-mod-badge-wrap:hover .menu-mod-badge {
+  opacity: 0;
+}
+
+.menu-mod-badge-wrap:hover .menu-mod-badge-hover {
+  opacity: 1;
+}
+
+.menu-hotzone {
+  overflow: hidden;
+}
+
+.menu-hotzone canvas {
+  cursor: none;
+}
+
+.loading-screen,
+.game-placeholder {
+  position: fixed;
+  inset: 0;
+  cursor: none;
+}
+
+.loading-screen {
+  background: #000;
+  z-index: 1000;
+}
+
+.game-placeholder {
+  display: grid;
+  place-items: center;
+  background: #000;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.stage.menu-help-open .game-placeholder {
+  background: transparent;
+}
+
+.stage.menu-help-open .game-viewport {
+  background-color: transparent;
+  background-image: none;
+}
+
+.stage.menu-help-open .game-sky-frame,
+.stage.menu-help-open .game-wood,
+.stage.menu-help-open .playersmeter-wrap,
+.stage.menu-help-open .bazuckmeter-wrap,
+.stage.menu-help-open .game-buttons,
+.stage.menu-help-open .bacon-character,
+.stage.menu-help-open .offensive-item,
+.stage.menu-help-open .david-character-wrap,
+.stage.menu-help-open .decision-warning {
+  display: none !important;
+}
+
+.game-viewport {
+  position: relative;
+  width: min(100vw, 160vh);
+  height: min(100vh, 62.5vw);
+  aspect-ratio: 16 / 10;
+  max-width: 160vh;
+  max-height: 62.5vw;
+  overflow: hidden;
+  background-color: #07194f;
+  background-image: url("spr_maingame_bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.game-sky-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 640 / 256;
+  z-index: 1;
+  line-height: 0;
+}
+
+.game-sky-frame::after {
+  position: absolute;
+  inset: 0;
+  border-right: 20px solid #061743;
+  border-bottom: 35px solid #061743;
+  border-left: 20px solid #061743;
+  content: "";
+  pointer-events: none;
+}
+
+.game-sky-frame-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  pointer-events: none;
+}
+
+.david-character-wrap {
+  position: absolute;
+  z-index: 2;
+  width: 20%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transform-origin: 50% 100%;
+  will-change: left, transform;
+}
+
+/* Keep every normal lean anchored at David's shoes, so peeking does not
+   make him slide across the floor. The jumpscare overlay sets its own pivot. */
+.david-character-wrap:not(.david-jumpscare-target) {
+  transform-origin: 50% 100%;
+}
+
+.david-character-wrap.david-jumpscare-character {
+  z-index: 8;
+}
+
+.david-character-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+  transform-origin: 50% 100%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.bacon-character {
+  position: absolute;
+  left: 51%;
+  top: 42%;
+  z-index: 2;
+  width: 50%;
+  height: auto;
+  image-rendering: pixelated;
+  filter: saturate(0.86) contrast(0.92);
+  pointer-events: none;
+  will-change: transform;
+  transition: none;
+}
+
+.bacon-character.acorn-character {
+  width: 22%;
+}
+
+.bacon-character.oakley-candidate {
+  top: 34%;
+  width: 42%;
+}
+
+.bacon-character.noob-candidate {
+  top: 36%;
+  width: 48%;
+  transform: translateX(-50%);
+}
+
+.bacon-character.n00b112-candidate {
+  top: 36%;
+  width: 48%;
+  transform: translateX(-50%);
+}
+
+.bacon-entering {
+  animation: bacon-slide-in 1200ms linear forwards;
+}
+
+.bacon-visible,
+.bacon-terminating {
+  transform: translateX(-50%) scaleX(1.15);
+}
+
+.bacon-exiting-right {
+  animation: bacon-slide-out-right 1200ms linear forwards;
+}
+
+.gameplay-paused .bacon-character,
+.gameplay-paused .offensive-item,
+.gameplay-paused .david-jumpscare-target,
+.gameplay-paused .david-character-wrap.david-jumpscare-target {
+  animation-play-state: paused;
+}
+
+@keyframes bacon-slide-in {
+  from {
+    transform: translateX(calc(-50% - 250%)) scaleX(1.15);
+  }
+
+  to {
+    transform: translateX(-50%) scaleX(1.15);
+  }
+}
+
+@keyframes bacon-slide-out-right {
+  from {
+    transform: translateX(-50%) scaleX(1.15);
+  }
+
+  to {
+    transform: translateX(calc(-50% + 250%)) scaleX(1.15);
+  }
+}
+
+/*
+ * The explosion is a separate canvas overlay positioned over the target
+ * element's captured bounding rect. Its drawing code uses additive blending;
+ * this CSS adds a final high-brightness glow without changing the character.
+ */
+.character-explosion-canvas {
+  position: absolute;
+  /* Keep the VFX above the character but below the foreground wood (z-index 3). */
+  z-index: 2;
+  display: block;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.92))
+    drop-shadow(0 0 24px rgba(0, 220, 255, 0.55));
+  will-change: contents;
+}
+
+.explosion-smoke {
+  position: absolute;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  will-change: contents;
+}
+
+.explosion-smoke-puff {
+  position: absolute;
+  top: 46%;
+  left: calc(50% + var(--smoke-x));
+  width: var(--smoke-size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 42% 38%,
+      rgba(232, 237, 239, 0.74) 0,
+      rgba(163, 171, 176, 0.58) 36%,
+      rgba(78, 87, 91, 0.35) 68%,
+      rgba(30, 36, 39, 0) 100%
+    );
+  filter: blur(5px);
+  opacity: 0;
+  transform: translate(-50%, 0) scale(0.36);
+  animation: explosion-smoke-rise 2.35s ease-out var(--smoke-delay) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes explosion-smoke-rise {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 5%) scale(0.36);
+  }
+
+  12% {
+    opacity: 0.58;
+  }
+
+  56% {
+    opacity: 0.38;
+    transform:
+      translate(
+        calc(-50% + var(--smoke-drift)),
+        var(--smoke-rise-half)
+      )
+      scale(0.98);
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate(
+        calc(-50% + var(--smoke-drift)),
+        var(--smoke-rise-full)
+      )
+      scale(1.42);
+  }
+}
+
+.offensive-item {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 6;
+  width: min(72%, 690px);
+  height: auto;
+  pointer-events: auto;
+  cursor: none;
+  will-change: transform;
+  transform: translate(-50%, 84%);
+  transition: transform 350ms linear;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.offensive-item-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+
+.offensive-item-content {
+  position: absolute;
+  top: 19%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 38%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.offensive-item-text {
+  position: absolute;
+  top: 23%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(20px, 3.8vw, 36px);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.offensive-item-text.offensive-item-noob-main {
+  top: 23%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(20px, 3.8vw, 36px);
+  font-weight: 500;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.offensive-item-noob-extra {
+  position: absolute;
+  top: 68%;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  font-family: "Patrick Hand", "Caveat", "Comic Sans MS", cursive, sans-serif;
+  font-size: clamp(28px, 5.2vw, 50px);
+  font-weight: 400;
+  color: #000000;
+  letter-spacing: 1px;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.offensive-item-entering {
+  animation: offensive-item-rise 1200ms linear forwards;
+}
+
+.offensive-item.offensive-item-raised {
+  transform: translate(-50%, 0%);
+}
+
+.offensive-item.offensive-item-lowered {
+  transform: translate(-50%, 84%);
+}
+
+.offensive-item.offensive-item-exiting-from-raised {
+  animation: offensive-item-fall-raised 600ms linear forwards;
+  pointer-events: none;
+}
+
+.offensive-item.offensive-item-exiting-from-lowered {
+  animation: offensive-item-fall-lowered 400ms linear forwards;
+  pointer-events: none;
+}
+
+@keyframes offensive-item-rise {
+  from {
+    transform: translate(-50%, 105%);
+  }
+
+  to {
+    transform: translate(-50%, 84%);
+  }
+}
+
+@keyframes offensive-item-fall-raised {
+  from {
+    transform: translate(-50%, 0%);
+  }
+
+  to {
+    transform: translate(-50%, 105%);
+  }
+}
+
+@keyframes offensive-item-fall-lowered {
+  from {
+    transform: translate(-50%, 84%);
+  }
+
+  to {
+    transform: translate(-50%, 105%);
+  }
+}
+
+.game-wood {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+
+.bazuckmeter-wrap {
+  position: absolute;
+  top: 13.5%;
+  right: 6.8%;
+  height: 60%;
+  aspect-ratio: 143 / 516;
+  z-index: 4;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.bazuckmeter-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.meter-icon {
+  position: absolute;
+  z-index: 2;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  image-rendering: auto;
+}
+
+.playersmeter-has-icon .playersmeter-bg {
+  clip-path: inset(28.5% 0 0);
+}
+
+.playersmeter-icon {
+  transform: translateX(-50%);
+}
+
+/* The player face files use 68px and 74px-wide canvases, so the narrower
+   angry file needs a smaller image box to keep its visible face the same
+   size as the other variants. */
+.playersmeter-icon.meter-icon-mid {
+  left: 47.2%;
+  width: 95%;
+  top: 3.4%;
+}
+
+.playersmeter-icon.meter-icon-angry {
+  left: 45.9%;
+  width: 87.5%;
+  top: 3.4%;
+}
+
+.playersmeter-icon.meter-icon-very-angry {
+  left: 45.9%;
+  width: 95%;
+  top: 3.05%;
+}
+
+.bazuckmeter-has-icon .bazuckmeter-bg {
+  clip-path: inset(27.8% 0 0);
+}
+
+.bazuckmeter-icon {
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+/* Each source PNG has different transparent padding. These sizes and offsets
+   keep the visible face aligned with the face in the meter artwork. */
+.bazuckmeter-icon.meter-icon-mid {
+  left: 51.7%;
+  width: 76%;
+  top: 0.3%;
+}
+
+.bazuckmeter-icon.meter-icon-angry {
+  left: 51.2%;
+  width: 93%;
+  top: -0.7%;
+}
+
+.bazuckmeter-icon.meter-icon-very-angry {
+  left: 51.5%;
+  width: 69%;
+  top: 1.6%;
+}
+
+.meter-steam-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.meter-steam-video {
+  position: absolute;
+  pointer-events: none;
+  object-fit: contain;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.bazuckmeter-steam-wrap.bazuckmeter-steam-angry .bazuckmeter-steam-left {
+  width: 110%;
+  height: auto;
+  left: 20%;
+  top: 12.8%;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(-90deg) scale(1.15, 2.2);
+}
+
+.bazuckmeter-steam-wrap.bazuckmeter-steam-angry .bazuckmeter-steam-right {
+  width: 110%;
+  height: auto;
+  left: 82%;
+  top: 12.8%;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(90deg) scale(-1.15, 2.2);
+}
+
+.bazuckmeter-steam-wrap.bazuckmeter-steam-very-angry .bazuckmeter-steam-left {
+  width: 110%;
+  height: auto;
+  left: 23%;
+  top: 13%;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(-90deg) scale(1.15, 2.2);
+}
+
+.bazuckmeter-steam-wrap.bazuckmeter-steam-very-angry .bazuckmeter-steam-right {
+  width: 110%;
+  height: auto;
+  left: 80%;
+  top: 13%;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(90deg) scale(-1.15, 2.2);
+}
+
+.playersmeter-steam-wrap.playersmeter-steam-angry .playersmeter-steam-left {
+  width: 110%;
+  height: auto;
+  left: 18%;
+  top: 12.8%;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(-90deg) scale(1.15, 2.2);
+}
+
+.playersmeter-steam-wrap.playersmeter-steam-angry .playersmeter-steam-right {
+  width: 110%;
+  height: auto;
+  left: 78%;
+  top: 12.8%;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(90deg) scale(-1.15, 2.2);
+}
+
+.playersmeter-steam-wrap.playersmeter-steam-very-angry .playersmeter-steam-left {
+  width: 110%;
+  height: auto;
+  left: 20%;
+  top: 13%;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(-90deg) scale(1.15, 2.2);
+}
+
+.playersmeter-steam-wrap.playersmeter-steam-very-angry .playersmeter-steam-right {
+  width: 110%;
+  height: auto;
+  left: 76%;
+  top: 13%;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(90deg) scale(-1.15, 2.2);
+}
+
+.bazuckmeter-tube {
+  position: absolute;
+  top: 29.3%;
+  bottom: 7.6%;
+  left: 35.65%;
+  width: 32.2%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bazuckmeter-beam {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: block;
+  image-rendering: pixelated;
+  object-fit: fill;
+  transition: height 600ms linear, opacity 300ms linear;
+  will-change: height;
+}
+
+.bazuckmeter-beam-overflow {
+  height: 300%;
+}
+
+.bazuckmeter-tube-overflow {
+  overflow: visible;
+}
+
+.playersmeter-wrap {
+  position: absolute;
+  top: 17.5%;
+  left: 8.5%;
+  height: 54.5%;
+  aspect-ratio: 137 / 488;
+  z-index: 4;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.playersmeter-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+}
+
+.playersmeter-tube {
+  position: absolute;
+  top: 29.5%;
+  bottom: 2.8%;
+  left: 25.5%;
+  width: 39%;
+  border-radius: 9999px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.playersmeter-beam {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: block;
+  image-rendering: pixelated;
+  object-fit: fill;
+  transition: height 600ms linear, opacity 300ms linear;
+  will-change: height;
+}
+
+.game-buttons {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.decision-warning {
+  position: absolute;
+  top: 7.5%;
+  left: 50%;
+  z-index: 20;
+  width: max-content;
+  max-width: 94%;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: clamp(30px, 5.4vw, 56px);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  line-height: 1;
+  text-align: center;
+  background: linear-gradient(180deg, #ffffff 20%, #e6e9ed 50%, #b8c0c8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter:
+    drop-shadow(-2px -2px 0 #000000)
+    drop-shadow(2px -2px 0 #000000)
+    drop-shadow(-2px 2px 0 #000000)
+    drop-shadow(2px 2px 0 #000000)
+    drop-shadow(-2.5px 0 0 #000000)
+    drop-shadow(2.5px 0 0 #000000)
+    drop-shadow(0 -2.5px 0 #000000)
+    drop-shadow(0 2.5px 0 #000000)
+    drop-shadow(0 3px 3px rgba(0, 0, 0, 0.7));
+  pointer-events: none;
+  user-select: none;
+  transform: translateX(-50%) scale(1);
+  transform-origin: 50% 50%;
+  animation: decision-warning-pulse 700ms ease-in-out infinite alternate;
+}
+
+@keyframes decision-warning-pulse {
+  from {
+    transform: translateX(-50%) scale(1);
+  }
+
+  to {
+    transform: translateX(-50%) scale(1.12);
+  }
+}
+
+.helpy-overlay {
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  z-index: 30;
+  width: min(92%, 840px);
+  container-type: inline-size;
+  transform: translate(-50%, -165%);
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 220ms linear 0s;
+}
+
+.helpy-overlay.helpy-visible {
+  transform: translate(-50%, -50%);
+}
+
+.helpy-overlay.helpy-exiting {
+  transform: translate(-50%, -165%);
+}
+
+.helpy-overlay img {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+
+.helpy-overlay .helpy-ui-frame {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+
+.helpy-overlay .helpy-cluttered {
+  position: absolute;
+  top: 27.5%;
+  left: 13.5%;
+  z-index: 3;
+  width: 76%;
+  height: auto;
+  max-width: 574px;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+}
+
+.helpy-overlay .helpy-face-frame {
+  position: absolute;
+  top: 5.3%;
+  left: 1.8%;
+  z-index: 1;
+  width: 17.1%;
+  height: 22.7%;
+  border-radius: 50%;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.helpy-overlay .helpy-face {
+  width: 125%;
+  height: auto;
+  max-width: none;
+  display: block;
+  transform: translateY(-2%);
+  pointer-events: none;
+}
+
+.helpy-overlay .helpy-face-frame.helpy-face-black,
+.helpy-ninth .helpy-face-frame,
+.helpy-overlay .helpy-face.helpy-face-black,
+.helpy-ninth .helpy-face {
+  filter: brightness(0) saturate(100%);
+  opacity: 1;
+}
+
+.helpy-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  text-align: center;
+  pointer-events: none;
+}
+
+.helpy-copy p {
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  font-weight: 400;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.helpy-greeting {
+  top: 29%;
+  font-size: clamp(22px, 8.6cqw, 50px);
+}
+
+.helpy-message {
+  top: 51%;
+  font-size: clamp(21px, 8.2cqw, 48px);
+  line-height: 1.2;
+}
+
+.helpy-message-long {
+  top: 31%;
+  left: 13%;
+  width: 78% !important;
+  font-size: clamp(18px, 7.8cqw, 37px);
+  line-height: 1.13;
+  text-align: left;
+}
+
+.helpy-message-third {
+  top: 29%;
+  left: 17%;
+  width: 76% !important;
+  font-size: clamp(20px, 8.8cqw, 42px);
+  line-height: 1.1;
+  text-align: left;
+}
+
+.helpy-message-fourth {
+  top: 27%;
+  left: 0;
+  width: 100% !important;
+  font-size: clamp(22px, 9.1cqw, 55px);
+  line-height: 1.12;
+  font-weight: 400;
+  text-align: center;
+}
+
+.helpy-message-fifth {
+  top: 17%;
+  left: 14%;
+  width: 74% !important;
+  font-size: clamp(18px, 8cqw, 46px);
+  line-height: 1.2;
+  text-align: left;
+}
+
+.helpy-message-sixth {
+  top: 19%;
+  left: 20%;
+  width: 74% !important;
+  font-size: clamp(17px, 7.5cqw, 43px);
+  line-height: 1.18;
+  text-align: left;
+}
+
+.helpy-message-seventh {
+  top: 38%;
+  left: 0;
+  width: 100% !important;
+  font-size: clamp(18px, 8.2cqw, 46px);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.helpy-message-eighth {
+  top: 27%;
+  left: 17%;
+  width: 76% !important;
+  font-size: clamp(18px, 8.2cqw, 46px);
+  line-height: 1.15;
+  text-align: left;
+}
+
+.helpy-message-ninth {
+  top: 23%;
+  left: 15%;
+  width: 78% !important;
+  font-size: clamp(18px, 8.2cqw, 46px);
+  line-height: 1.15;
+  text-align: left;
+}
+
+.helpy-exit-message {
+  top: 34%;
+  left: 8%;
+  width: 84% !important;
+  line-height: 1.05;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.helpy-settings-message {
+  top: 31%;
+  left: 9%;
+  width: 82% !important;
+  font-size: clamp(18px, 7.2cqw, 42px);
+  line-height: 1.15;
+  text-align: center;
+}
+
+.helpy-volume-settings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.helpy-volume-slider {
+  position: absolute;
+  top: 56%;
+  left: 18%;
+  z-index: 5;
+  width: 64%;
+  height: 8%;
+  margin: 0;
+  accent-color: #d7dce2;
+  cursor: none;
+  pointer-events: auto;
+}
+
+.helpy-john-doe-copy {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.helpy-john-doe-line {
+  left: 8%;
+  width: 84% !important;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(23px, 9.2cqw, 51px);
+  font-weight: 400;
+  line-height: 0.86;
+  text-align: center;
+  text-shadow: none !important;
+  white-space: normal;
+}
+
+.helpy-john-doe-line-one {
+  top: 28%;
+}
+
+.helpy-john-doe-line-two {
+  top: 33%;
+}
+
+.helpy-john-doe-line-three {
+  top: 42%;
+}
+
+.helpy-john-doe-line-four {
+  top: 48%;
+}
+
+.helpy-john-doe-line-five {
+  top: 54%;
+}
+
+.helpy-john-doe-line-six {
+  top: 59%;
+}
+
+.helpy-fifth-opening {
+  display: inline-block;
+  margin-left: 8%;
+}
+
+.helpy-fifth-warning {
+  display: block;
+  text-align: center;
+}
+
+.helpy-ok {
+  position: absolute;
+  top: 77%;
+  left: 77.5%;
+  z-index: 5;
+  width: 14%;
+  height: 13%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: none;
+  display: grid;
+  place-items: center;
+}
+
+.game-button {
+  position: absolute;
+  bottom: 4%;
+  width: clamp(110px, 27vw, 250px);
+  height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 0;
+  pointer-events: auto;
+  cursor: none;
+}
+
+.game-button img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.game-button-red {
+  left: 8%;
+  height: clamp(52.7px, 12.92vw, 119.8px);
+}
+
+.game-button-green {
+  right: 8%;
+  height: clamp(66.7px, 16.4vw, 151.7px);
+}
+
+.video-wrap.slide-up {
+  transform: translateY(-100%);
+  transition: transform 1.2s linear;
+}
+
+.video-wrap.slide-up .video-top,
+.video-wrap.slide-up video {
+  pointer-events: none;
+}
+
+#hint {
+  display: none;
+}
+
+.game-viewport.jumpscare-blackout {
+  background-color: #000000 !important;
+  background-image: none !important;
+}
+
+.game-viewport.jumpscare-blackout .game-sky-frame {
+  opacity: 0 !important;
+  display: none !important;
+}
+
+.game-viewport.jumpscare-blackout .offensive-item,
+.game-viewport.jumpscare-blackout .decision-warning {
+  display: none !important;
+}
+
+.david-character-wrap.david-jumpscare-target {
+  position: absolute;
+  z-index: 10;
+  width: var(--start-w, 15%);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 50% !important;
+  will-change: left, top, width;
+  animation: jumpscare-linear-grow 0.65s linear forwards;
+}
+
+.david-character-wrap.david-jumpscare-target.david-jumpscare-endpoint {
+  left: var(--end-x, 50.2%) !important;
+  top: var(--end-y, 53.5%) !important;
+  width: var(--target-w, 75%) !important;
+  animation: none !important;
+}
+
+.game-viewport.jumpscare-endpoint .game-wood,
+.game-viewport.jumpscare-endpoint .playersmeter-wrap,
+.game-viewport.jumpscare-endpoint .bazuckmeter-wrap,
+.game-viewport.jumpscare-endpoint .game-buttons,
+.game-viewport.jumpscare-ended .game-wood,
+.game-viewport.jumpscare-ended .playersmeter-wrap,
+.game-viewport.jumpscare-ended .bazuckmeter-wrap,
+.game-viewport.jumpscare-ended .game-buttons {
+  display: none !important;
+}
+
+.game-viewport.jumpscare-ended .david-character-wrap {
+  display: none !important;
+}
+
+.post-jumpscare-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  background: #000;
+  opacity: 0;
+  pointer-events: auto;
+  animation: post-jumpscare-fade-in 700ms ease-out forwards;
+}
+
+.post-jumpscare-frame {
+  position: relative;
+  width: min(100vw, 160vh);
+  height: min(100vh, 62.5vw);
+  aspect-ratio: 16 / 10;
+  max-width: 160vh;
+  max-height: 62.5vw;
+  overflow: hidden;
+  background: #000;
+}
+
+.post-jumpscare-frame::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 3px;
+  background: #000;
+  content: "";
+  pointer-events: none;
+}
+
+.post-jumpscare-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  image-rendering: auto;
+}
+
+@keyframes post-jumpscare-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes jumpscare-linear-grow {
+  0% {
+    left: var(--start-x, 56.4%);
+    top: var(--start-y, 29.5%);
+    width: var(--start-w, 15%);
+  }
+  100% {
+    left: var(--end-x, 50.2%);
+    top: var(--end-y, 53.5%);
+    width: var(--target-w, 75%);
+  }
+}
+
+.david-jumpscare-target .david-character-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  image-rendering: auto;
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+  will-change: width;
+}
